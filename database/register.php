@@ -2,7 +2,17 @@
 require_once 'config/config.php';
 
 if (isLoggedIn()) {
-    redirect('demo_dashboard.php');
+    $user = getCurrentUser();
+    $role = $user['role'];
+    
+    // Redirect based on role
+    if ($role === 'admin') {
+        redirect('admin_dashboard.php');
+    } elseif ($role === 'organizer') {
+        redirect('club_organizer_dashboard.php');
+    } else {
+        redirect('student_dashboard.php');
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -90,7 +100,7 @@ unset($_SESSION['form'], $_SESSION['error']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - University Event Management</title>
-    <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="stylesheet" href="assets/css/auth.css?v=2">
 </head>
 <body>
     <div class="container">

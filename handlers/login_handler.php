@@ -118,15 +118,15 @@ closeDBConnection($conn);
 // Redirect to appropriate dashboard based on role
 switch ($user['user_role']) {
     case 'admin':
-        redirect('dashboards/admin_dashboard.php');
+        redirect('admin_dashboard.php');
         break;
     case 'organizer':
-        redirect('dashboards/organizer_dashboard.php');
+        redirect('club_organizer_dashboard.php');
         break;
     case 'student':
-        redirect('dashboards/student_dashboard.php');
+        redirect('student_dashboard.php');
         break;
     default:
-        redirect('dashboards/student_dashboard.php');
+        redirect('student_dashboard.php');
 }
 ?>

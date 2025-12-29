@@ -2,7 +2,17 @@
 require_once 'config/config.php';
 
 if (isLoggedIn()) {
-    redirect('demo_dashboard.php');
+    $user = getCurrentUser();
+    $role = $user['role'];
+    
+    // Redirect based on role
+    if ($role === 'admin') {
+        redirect('admin_dashboard.php');
+    } elseif ($role === 'organizer') {
+        redirect('club_organizer_dashboard.php');
+    } else {
+        redirect('student_dashboard.php');
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -45,7 +55,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['user_role'] = $user['user_role'];
     $_SESSION['isLoggedIn'] = true;
     
-    header("Location: demo_dashboard.php");
+    // Redirect based on role
+    $role = $user['user_role'];
+    if ($role === 'admin') {
+        header("Location: admin_dashboard.php");
+    } elseif ($role === 'organizer') {
+        header("Location: club_organizer_dashboard.php");
+    } else {
+        header("Location: student_dashboard.php");
+    }
     exit();
 }
 
@@ -60,7 +78,7 @@ unset($_SESSION['username'], $_SESSION['loginErr'], $_SESSION['registerSuccess']
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - University Event Management</title>
-    <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="stylesheet" href="assets/css/auth.css?v=2">
 </head>
 <body>
     <div class="container">
