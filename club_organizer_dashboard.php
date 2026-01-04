@@ -154,32 +154,57 @@ if ($user['role'] !== 'organizer') {
                     </thead>
                     <tbody>
                         <tr>
+<<<<<<< HEAD
                             <td>Alice Johnson</td>
                             <td>alice@university.edu</td>
+=======
+                            <td>Akib Rahman</td>
+                            <td>akib@university.edu</td>
+>>>>>>> 35158d961ef90468a357ecf1ee4f1f9617db7b08
                             <td>Annual Tech Summit 2025</td>
                             <td>2025-12-20</td>
                         </tr>
                         <tr>
+<<<<<<< HEAD
                             <td>Bob Williams</td>
                             <td>bob@university.edu</td>
+=======
+                            <td>Tusher Ahmed</td>
+                            <td>tusher@university.edu</td>
+>>>>>>> 35158d961ef90468a357ecf1ee4f1f9617db7b08
                             <td>Annual Tech Summit 2025</td>
                             <td>2025-12-21</td>
                         </tr>
                         <tr>
+<<<<<<< HEAD
                             <td>Carol Martinez</td>
                             <td>carol@university.edu</td>
+=======
+                            <td>Ridika</td>
+                            <td>ridika@university.edu</td>
+>>>>>>> 35158d961ef90468a357ecf1ee4f1f9617db7b08
                             <td>Workshop: Web Development</td>
                             <td>2025-12-22</td>
                         </tr>
                         <tr>
+<<<<<<< HEAD
                             <td>David Lee</td>
                             <td>david@university.edu</td>
+=======
+                            <td>Rubai Hasan</td>
+                            <td>rubai@university.edu</td>
+>>>>>>> 35158d961ef90468a357ecf1ee4f1f9617db7b08
                             <td>Coding Competition</td>
                             <td>2025-12-23</td>
                         </tr>
                         <tr>
+<<<<<<< HEAD
                             <td>Emma Wilson</td>
                             <td>emma@university.edu</td>
+=======
+                            <td>Zubayer Rahman</td>
+                            <td>zubayer@university.edu</td>
+>>>>>>> 35158d961ef90468a357ecf1ee4f1f9617db7b08
                             <td>Annual Tech Summit 2025</td>
                             <td>2025-12-24</td>
                         </tr>
