@@ -1,5 +1,42 @@
 <?php
-require_once 'config/config.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+require_once __DIR__ . '/../Model/DatabaseConnection.php';
+
+function redirect(string $page): void {
+    header('Location: ' . $page);
+    exit();
+}
+
+function isLoggedIn(): bool {
+    return !empty($_SESSION['user_id']) && !empty($_SESSION['username']);
+}
+
+function getCurrentUser(): ?array {
+    if (!isLoggedIn()) {
+        return null;
+    }
+
+    return [
+        'user_id' => $_SESSION['user_id'],
+        'username' => $_SESSION['username'],
+        'full_name' => $_SESSION['full_name'] ?? '',
+        'email' => $_SESSION['email'] ?? '',
+        'role' => $_SESSION['user_role'] ?? '',
+    ];
+}
+
+function getDBConnection() {
+    return (new DatabaseConnection())->openConnection();
+}
+
+function closeDBConnection($conn): void {
+    if ($conn) {
+        (new DatabaseConnection())->closeConnection($conn);
+    }
+}
 
 if (isLoggedIn()) {
     $user = getCurrentUser();
@@ -47,14 +84,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($error) {
         $_SESSION['error'] = $error;
         $_SESSION['form'] = compact('full_name', 'username', 'email', 'phone', 'role');
-        header("Location: register.php");
+        header("Location: signup.php");
         exit();
     }
     
     $conn = getDBConnection();
     if (!$conn) {
         $_SESSION['error'] = "Connection failed";
-        header("Location: register.php");
+        header("Location: signup.php");
         exit();
     }
     
@@ -66,14 +103,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['form'] = compact('full_name', 'username', 'email', 'phone', 'role');
         $stmt->close();
         closeDBConnection($conn);
-        header("Location: register.php");
+        header("Location: signup.php");
         exit();
     }
     $stmt->close();
     
-    $hash = password_hash($password, PASSWORD_DEFAULT);
     $stmt = $conn->prepare("INSERT INTO users (username, email, password_hash, full_name, user_role, phone) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $username, $email, $hash, $full_name, $role, $phone);
+    $stmt->bind_param("ssssss", $username, $email, $password, $full_name, $role, $phone);
     
     if ($stmt->execute()) {
         $_SESSION['registerSuccess'] = "Registration successful! Please login.";
@@ -86,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['error'] = "Registration failed. Try again.";
     $stmt->close();
     closeDBConnection($conn);
-    header("Location: register.php");
+    header("Location: signup.php");
     exit();
 }
 
@@ -101,16 +137,37 @@ unset($_SESSION['form'], $_SESSION['error']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - University Event Management</title>
     <link rel="stylesheet" href="assets/css/auth.css?v=2">
+    <style>
+        .password-wrapper {
+            position: relative;
+        }
+        .password-wrapper input {
+            padding-right: 40px;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            user-select: none;
+            font-size: 18px;
+            color: #666;
+        }
+        .toggle-password:hover {
+            color: #333;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="auth-card">
             <div class="auth-header">
-                <h1>🎓 University Events</h1>
+                <h1> University Events</h1>
                 <p>Event & Club Management System</p>
             </div>
 
-            <form method="POST">
+            <form method="POST" action="../Controller/signUpValidation.php">
                 <h2>Register</h2>
                 
                 <?php if ($error): ?>
@@ -144,6 +201,9 @@ unset($_SESSION['form'], $_SESSION['error']);
                     <label for="phone">Phone (Optional)</label>
                     <input type="tel" id="phone" name="phone" 
                            value="<?php echo htmlspecialchars($form['phone'] ?? ''); ?>"
+                           inputmode="numeric"
+                           pattern="\d{11}"
+                           maxlength="11"
                            placeholder="Enter your phone number">
                 </div>
 
@@ -158,14 +218,24 @@ unset($_SESSION['form'], $_SESSION['error']);
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" 
-                           placeholder="Create a password">
+                    <div class="password-wrapper">
+                        <input type="password" id="password" name="password" 
+                               placeholder="Create a password">
+                        <span class="toggle-password" onclick="togglePassword('password', 'passwordToggleIcon')" title="Show/Hide password">
+                            <img id="passwordToggleIcon" src="https://img.icons8.com/?size=100&id=85137&format=png&color=000000" alt="Show/Hide" width="18" height="18">
+                        </span>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="confirm_password">Confirm Password</label>
-                    <input type="password" id="confirm_password" name="confirm_password" 
-                           placeholder="Confirm your password">
+                    <div class="password-wrapper">
+                        <input type="password" id="confirm_password" name="confirm_password" 
+                               placeholder="Confirm your password">
+                        <span class="toggle-password" onclick="togglePassword('confirm_password', 'confirmPasswordToggleIcon')" title="Show/Hide password">
+                            <img id="confirmPasswordToggleIcon" src="https://img.icons8.com/?size=100&id=85137&format=png&color=000000" alt="Show/Hide" width="18" height="18">
+                        </span>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Register</button>
@@ -176,5 +246,23 @@ unset($_SESSION['form'], $_SESSION['error']);
             </form>
         </div>
     </div>
+    <script>
+        function togglePassword(fieldId, iconImgId) {
+            const field = document.getElementById(fieldId);
+            const img = document.getElementById(iconImgId);
+
+            // Per your icons: unhide=85137, hide=85130
+            const showIcon = 'https://img.icons8.com/?size=100&id=85137&format=png&color=000000';
+            const hideIcon = 'https://img.icons8.com/?size=100&id=85130&format=png&color=000000';
+
+            if (field.type === 'password') {
+                field.type = 'text';
+                if (img) img.src = hideIcon;
+            } else {
+                field.type = 'password';
+                if (img) img.src = showIcon;
+            }
+        }
+    </script>
 </body>
 </html>
