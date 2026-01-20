@@ -1,64 +1,28 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-function redirect(string $page): void {
-    header('Location: ' . $page);
-    exit();
-}
-
-function isLoggedIn(): bool {
-    return !empty($_SESSION['user_id']) && !empty($_SESSION['username']);
-}
-
-function getCurrentUser(): ?array {
-    if (!isLoggedIn()) {
-        return null;
-    }
-
-    return [
-        'user_id' => $_SESSION['user_id'],
-        'username' => $_SESSION['username'],
-        'full_name' => $_SESSION['full_name'] ?? '',
-        'email' => $_SESSION['email'] ?? '',
-        'phone' => $_SESSION['phone'] ?? '',
-        'role' => $_SESSION['user_role'] ?? '',
-        'filepath' => $_SESSION['filepath'] ?? '',
-    ];
-}
-
-if (!isLoggedIn()) {
-    redirect('../../Auth/View/login.php');
-}
-
-$user = getCurrentUser();
-if ($user['role'] !== 'admin') {
-    redirect('../../Auth/View/index.php');
-}
+require_once __DIR__ . '/../../Auth/Controller/common.php';
+$user = requireRoleOrRedirect('organizer');
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - Admin</title>
+    <title>My Profile - Organizer</title>
     <link rel="stylesheet" href="assets/css/dashboard.css">
 </head>
 <body>
     <div class="dashboard-layout">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <h2>Admin Panel</h2>
+            <h2>Organizer Panel</h2>
             <nav>
                 <ul>
-                    <li><a href="admin_dashboard.php">Dashboard</a></li>
+                    <li><a href="club_organizer_dashboard.php">Dashboard</a></li>
                     <li><a href="profile.php" class="active">My Profile</a></li>
-                    <li><a href="#">Users</a></li>
-                    <li><a href="#">Clubs</a></li>
-                    <li><a href="#">Events</a></li>
-                    <li><a href="#">Approvals</a></li>
-                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">My Events</a></li>
+                    <li><a href="#">Create Event</a></li>
+                    <li><a href="#">Participants</a></li>
+                    <li><a href="#">My Club</a></li>
                     <li><a href="../../Auth/Controller/logout.php">Logout</a></li>
                 </ul>
             </nav>
