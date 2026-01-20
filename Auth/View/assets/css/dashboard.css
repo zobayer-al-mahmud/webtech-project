@@ -1,0 +1,264 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f0f0;
+}
+
+/* Dashboard Layout */
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background: white;
+    border-right: 1px solid #ccc;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar nav ul li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid transparent;
+}
+
+.sidebar nav ul li a:hover,
+.sidebar nav ul li a.active {
+    background: #f0f0f0;
+    border-color: #ccc;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Header */
+.header {
+    background: white;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.header .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Summary Section */
+.summary-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.summary-card {
+    background: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+
+.summary-card h3 {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.summary-card .summary-number {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Data Section */
+.data-section {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+}
+
+.data-section h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Tables */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table thead {
+    background: #f5f5f5;
+}
+
+.data-table th,
+.data-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.data-table th {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.data-table td {
+    font-size: 14px;
+}
+
+/* Buttons */
+.btn-approve,
+.btn-reject,
+.btn-register,
+.btn-cancel,
+.btn-primary {
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    margin-right: 5px;
+}
+
+.btn-approve,
+.btn-register,
+.btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+.btn-approve:hover,
+.btn-register:hover,
+.btn-primary:hover {
+    background: #0056b3;
+}
+
+.btn-reject,
+.btn-cancel {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-reject:hover,
+.btn-cancel:hover {
+    background: #c82333;
+}
+
+/* Event Form */
+.event-form {
+    max-width: 600px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-row .form-group:only-child {
+    grid-column: 1 / -1;
+}
+
+.event-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.event-form label {
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.event-form input,
+.event-form textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    font-family: Arial, sans-serif;
+}
+
+.event-form .btn-primary {
+    margin-top: 10px;
+    padding: 10px 20px;
+}
+
+/* Notifications */
+.notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.notification-item {
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+}
+
+.notification-item p {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+}
+
+.notification-date {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Fix for stray caret cursor and text selection */
+body {
+    caret-color: transparent;
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+    caret-color: auto;
+    cursor: text;
+    user-select: text;
+    -webkit-user-select: text;
+}

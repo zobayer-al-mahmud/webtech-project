@@ -1,0 +1,126 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f0f0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+}
+
+.auth-card {
+    background: white;
+    padding: 30px;
+    border: 1px solid #ddd;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1,
+h2 {
+    margin-bottom: 20px;
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid;
+    display: none;
+}
+
+.alert-error {
+    background: #fdd;
+    color: #d00;
+    border-color: #d00;
+}
+
+.alert-success {
+    background: #dfd;
+    color: #070;
+    border-color: #070;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+}
+
+.form-footer {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 5px;
+}
+
+/* Fix for stray caret cursor and text selection */
+body {
+    caret-color: transparent;
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+input,
+select,
+textarea,
+[contenteditable="true"] {
+    caret-color: auto;
+    cursor: text;
+    user-select: text;
+    -webkit-user-select: text;
+}
